@@ -1,0 +1,11 @@
+{
+  "datasets": 200,
+  "nominal": 0.95,
+  "mc_standard_error": 0.0154,
+  "coverage": {
+    "beta_0": 0.935,
+    "beta_1": 0.96,
+    "beta_2": 0.955,
+    "sigma2": 0.925
+  }
+}
