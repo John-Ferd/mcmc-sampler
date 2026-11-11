@@ -25,6 +25,7 @@ import numpy as np
 
 from mcmc_sampler import BayesLinReg, autocorrelation, gibbs_sampler, metropolis_hastings, summarize
 from mcmc_sampler.data import load_diabetes, posterior_predictive_interval, standardize
+from mcmc_sampler.env import environment
 
 ap = argparse.ArgumentParser(description=__doc__)
 ap.add_argument("--n-iter", type=int, default=5000)
@@ -102,6 +103,7 @@ res = {
                  "rmse_least_squares": round(float(np.mean(rmse_ols)), 2),
                  "outcome_sd": round(float(y_raw.std()), 1)},
 }
+res["environment"] = environment()
 (out_dir / "diabetes.json").write_text(json.dumps(res, indent=2))
 
 print(f"{'param':10s} {'Gibbs mean':>10s} {'95% CI':>18s} {'OLS':>7s} {'R-hat':>6s} {'ESS':>7s} | {'MH R-hat':>8s} "
