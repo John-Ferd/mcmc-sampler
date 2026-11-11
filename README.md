@@ -1,6 +1,10 @@
 # mcmc-sampler
 
+[![CI](https://github.com/John-Ferd/mcmc-sampler/actions/workflows/ci.yml/badge.svg)](https://github.com/John-Ferd/mcmc-sampler/actions/workflows/ci.yml) ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
+
 Metropolis-Hastings and Gibbs samplers for Bayesian linear regression, with the convergence diagnostics (split R-hat, effective sample size, autocorrelation) written from scratch in NumPy. The point is to compare how the two samplers **mix** on the same posterior and to check that the answers can be trusted.
+
+> **Project history:** first built earlier in 2026. In November 2026 it was rebuilt into a tested, reproducible package and published here, so the commit history starts then. All numbers in this README come from this published version.
 
 ## In one paragraph
 
@@ -31,6 +35,19 @@ ESS is out of 20,000 total draws (4 chains × 5,000).
 The posterior means sit near the least-squares fit (0.997, −2.122, 0.620) rather than the true β. With a weak prior and n = 200 that is expected; the gap comes from noise in this one dataset, not from the sampler.
 
 <p align="center"><img src="artifacts/traces.png" width="60%"> <img src="artifacts/acf.png" width="38%"></p>
+
+## Architecture
+
+```mermaid
+flowchart LR
+  D["synthetic data<br/>n = 200, known β, σ²"] --> M["model.py<br/>Normal-Inverse-Gamma prior<br/>full conditionals · log posterior"]
+  M --> G["gibbs.py<br/>exact conditional draws"]
+  M --> H["mh.py<br/>random-walk Metropolis-Hastings"]
+  G --> X["diagnostics.py<br/>split R-hat · ESS · ACF"]
+  H --> X
+  X --> O["results table + trace / ACF plots"]
+  M --> C["coverage_check.py<br/>200 datasets, 95% interval coverage"]
+```
 
 ## The model
 
