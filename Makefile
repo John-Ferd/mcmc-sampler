@@ -1,6 +1,6 @@
 PY ?= python
 
-.PHONY: setup test lint experiment coverage
+.PHONY: setup test lint experiment coverage diabetes
 
 setup:
 	$(PY) -m pip install -e ".[dev]"
@@ -16,3 +16,6 @@ experiment:
 
 coverage:
 	$(PY) scripts/coverage_check.py
+
+diabetes:     # real data (one-time download into data/), ~15 seconds
+	$(PY) scripts/run_diabetes.py
