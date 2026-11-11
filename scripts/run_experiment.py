@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from mcmc_sampler import BayesLinReg, autocorrelation, gibbs_sampler, make_synthetic, metropolis_hastings, summarize
+from mcmc_sampler.env import environment
 
 ap = argparse.ArgumentParser(description=__doc__)
 ap.add_argument("--n-iter", type=int, default=5000)
@@ -54,6 +55,7 @@ results = {
            "step": [round(r[2], 4) for r in mh_runs],
            "summary": summarize(m, names, truth)},
 }
+results["environment"] = environment()
 with open(out_dir / "results.json", "w") as fh:
     json.dump(results, fh, indent=2)
 

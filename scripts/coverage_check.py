@@ -12,6 +12,7 @@ from pathlib import Path
 import numpy as np
 
 from mcmc_sampler import BayesLinReg, gibbs_sampler, make_synthetic
+from mcmc_sampler.env import environment
 
 ap = argparse.ArgumentParser(description=__doc__)
 ap.add_argument("--datasets", type=int, default=200)
@@ -30,6 +31,6 @@ names = [f"beta_{j}" for j in range(len(rate) - 1)] + ["sigma2"]
 # Monte Carlo standard error of a coverage rate near 0.95
 se = float(np.sqrt(0.95 * 0.05 / args.datasets))
 out = {"datasets": args.datasets, "nominal": 0.95, "mc_standard_error": round(se, 4),
-       "coverage": {k: round(float(v), 3) for k, v in zip(names, rate)}}
+       "coverage": {k: round(float(v), 3) for k, v in zip(names, rate)}, "environment": environment()}
 Path(__file__).resolve().parents[1].joinpath("artifacts", "coverage.json").write_text(json.dumps(out, indent=2))
 print(json.dumps(out, indent=2))
